@@ -1,0 +1,71 @@
+# ============================================
+# Solar Energy Optimization with Drone Tech
+# .gitignore
+# ============================================
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Build
+build/
+dist/
+*.egg
+
+# Models
+models/checkpoints/*.pt
+models/checkpoints/*.pth
+models/checkpoints/*.onnx
+
+# Large datasets
+datasets/raw/*
+datasets/processed/*
+
+# Keep folder structure
+!datasets/raw/.gitkeep
+!datasets/processed/.gitkeep
+!datasets/sample/.gitkeep
+
+# Secrets
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Docker
+*.pid
+
+# Temporary
+tmp/
+temp/
+
+# Raspberry Pi
+*.db

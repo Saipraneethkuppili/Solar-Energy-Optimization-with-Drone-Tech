@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "solar-energy-optimization-with-drone-tech"
+version = "0.1.0-alpha"
+description = "AI-powered autonomous drone system for solar panel inspection and efficiency optimization."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Sai Praneeth Kuppili" }
+]
+keywords = [
+    "embedded",
+    "raspberry-pi",
+    "drone",
+    "computer-vision",
+    "yolo",
+    "solar",
+    "iot",
+    "pixhawk"
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
