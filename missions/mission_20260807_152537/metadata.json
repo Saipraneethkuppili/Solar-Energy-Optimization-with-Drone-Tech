@@ -1,0 +1,9 @@
+{
+    "mission_id": "mission_20260807_152537",
+    "date": "2026-08-07",
+    "time": "15:25:37",
+    "drone": "Pixhawk",
+    "camera": "Raspberry Pi Camera V3",
+    "model": "YOLOv8",
+    "software_version": "0.6"
+}
