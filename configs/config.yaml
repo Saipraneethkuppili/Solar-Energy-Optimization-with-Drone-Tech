@@ -1,0 +1,27 @@
+project:
+  name: "Solar Energy Optimization with Drone Tech"
+  version: "0.1.0-alpha"
+
+pixhawk:
+  port: "/dev/ttyACM0"
+  baudrate: 115200
+
+lidar:
+  port: "/dev/ttyUSB0"
+  baudrate: 115200
+
+gps:
+  port: "/dev/ttyUSB1"
+  baudrate: 115200
+
+camera:
+  fps: 30
+  resolution:
+    width: 1920
+    height: 1080
+
+reports:
+  output_directory: "reports"
+
+dashboard:
+  enabled: true
