@@ -5,7 +5,7 @@ Stores information describing an inspection mission.
 """
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 
@@ -22,58 +22,34 @@ class MissionMetadata:
     ) -> Path:
         """Save metadata.json for a mission."""
 
-        now = datetime.now(
-            timezone.utc
-        )
+        now = datetime.now(UTC)
 
         metadata = {
-
-            "mission_id":
-                mission.name,
-
-            "created_at":
-                now.isoformat(),
-
-            "status":
-                status,
-
+            "mission_id": mission.name,
+            "created_at": now.isoformat(),
+            "status": status,
             "drone": {
-                "flight_controller":
-                    "Pixhawk",
-                "telemetry_source":
-                    telemetry_source,
+                "flight_controller": "Pixhawk",
+                "telemetry_source": telemetry_source,
             },
-
             "camera": {
-                "model":
-                    "Raspberry Pi Camera V3",
+                "model": "Raspberry Pi Camera V3",
             },
-
             "vision": {
-                "model":
-                    "YOLOv8",
-                "image_size":
-                    640,
-                "confidence_threshold":
-                    0.25,
+                "model": "YOLOv8",
+                "image_size": 640,
+                "confidence_threshold": 0.25,
             },
-
             "mission": {
-                "image_count":
-                    image_count,
-                "detection_count":
-                    detection_count,
+                "image_count": image_count,
+                "detection_count": detection_count,
             },
-
             "software": {
-                "version":
-                    "0.6",
+                "version": "0.6",
             },
         }
 
-        output_file = (
-            mission / "metadata.json"
-        )
+        output_file = mission / "metadata.json"
 
         with output_file.open(
             "w",

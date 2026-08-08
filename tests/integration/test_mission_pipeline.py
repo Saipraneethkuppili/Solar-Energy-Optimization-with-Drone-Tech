@@ -4,10 +4,7 @@ from src.analytics.detection_analyzer import DetectionAnalyzer
 from src.analytics.mission_health import MissionHealthAnalyzer
 from src.reporting.inspection_report import InspectionReport
 
-
-MISSION = Path(
-    "missions/mission_20260808_034026"
-)
+MISSION = Path("missions/mission_20260808_034026")
 
 
 def test_mission_package_exists():
@@ -20,28 +17,18 @@ def test_mission_package_exists():
 
 
 def test_mission_images():
-    images = list(
-        (MISSION / "images").glob("*.jpg")
-    )
+    images = list((MISSION / "images").glob("*.jpg"))
 
-    annotated = list(
-        (MISSION / "annotated").glob("*.jpg")
-    )
+    annotated = list((MISSION / "annotated").glob("*.jpg"))
 
     assert len(images) == 15
     assert len(annotated) == 15
 
 
 def test_detection_analytics():
-    detection_file = (
-        MISSION
-        / "reports"
-        / "detections.csv"
-    )
+    detection_file = MISSION / "reports" / "detections.csv"
 
-    analyzer = DetectionAnalyzer(
-        detection_file
-    )
+    analyzer = DetectionAnalyzer(detection_file)
 
     summary = analyzer.summary()
 
@@ -53,19 +40,11 @@ def test_detection_analytics():
 
 
 def test_mission_health():
-    detection_file = (
-        MISSION
-        / "reports"
-        / "detections.csv"
-    )
+    detection_file = MISSION / "reports" / "detections.csv"
 
-    summary = DetectionAnalyzer(
-        detection_file
-    ).summary()
+    summary = DetectionAnalyzer(detection_file).summary()
 
-    health = MissionHealthAnalyzer(
-        summary["class_counts"]
-    ).analyze()
+    health = MissionHealthAnalyzer(summary["class_counts"]).analyze()
 
     assert health.status == "CRITICAL"
     assert health.total_detections == 31
@@ -80,41 +59,25 @@ def test_inspection_report():
 
     data = report.generate()
 
-    assert data["mission_id"] == (
-        "mission_20260808_034026"
-    )
+    assert data["mission_id"] == ("mission_20260808_034026")
 
     assert data["status"] == "CRITICAL"
     assert data["images_inspected"] == 15
     assert data["total_detections"] == 31
     assert data["telemetry_records"] == 15
 
-    assert data[
-        "detections_by_class"
-    ]["cracked"] == 20
+    assert data["detections_by_class"]["cracked"] == 20
 
 
 def test_report_files():
     reports = MISSION / "reports"
 
-    assert (
-        reports / "detections.csv"
-    ).exists()
+    assert (reports / "detections.csv").exists()
 
-    assert (
-        reports / "inspection_report.json"
-    ).exists()
+    assert (reports / "inspection_report.json").exists()
 
-    assert (
-        reports / "inspection_report.txt"
-    ).exists()
+    assert (reports / "inspection_report.txt").exists()
 
-    assert (
-        MISSION / "metadata.json"
-    ).exists()
+    assert (MISSION / "metadata.json").exists()
 
-    assert (
-        MISSION
-        / "telemetry"
-        / "telemetry.csv"
-    ).exists()
+    assert (MISSION / "telemetry" / "telemetry.csv").exists()

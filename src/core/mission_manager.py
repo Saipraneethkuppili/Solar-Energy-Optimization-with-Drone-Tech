@@ -3,20 +3,17 @@ Mission Manager
 Creates and manages inspection mission directories.
 """
 
+from datetime import UTC, datetime
 from pathlib import Path
-from datetime import datetime
 
 
 class MissionManager:
-
     def __init__(self):
-
         self.root = Path("missions")
         self.root.mkdir(exist_ok=True)
 
     def create_mission(self):
-
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
 
         mission = self.root / f"mission_{timestamp}"
 

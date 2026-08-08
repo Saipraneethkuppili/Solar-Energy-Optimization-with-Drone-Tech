@@ -6,7 +6,7 @@ Project: Solar Energy Optimization with Drone Tech
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any
+from typing import Any
 
 
 class BaseSensor(ABC):
@@ -19,17 +19,14 @@ class BaseSensor(ABC):
     @abstractmethod
     def connect(self) -> bool:
         """Initialize the sensor."""
-        pass
 
     @abstractmethod
     def disconnect(self) -> None:
         """Disconnect the sensor."""
-        pass
 
     @abstractmethod
-    def read(self) -> Dict[str, Any]:
+    def read(self) -> dict[str, Any]:
         """Read data from the sensor."""
-        pass
 
     def is_connected(self) -> bool:
         """Return sensor connection status."""

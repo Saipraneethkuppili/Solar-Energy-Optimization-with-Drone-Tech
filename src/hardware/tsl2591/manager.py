@@ -9,9 +9,9 @@ Supports:
 from src.core.logger import get_logger
 
 try:
+    import adafruit_tsl2591
     import board
     import busio
-    import adafruit_tsl2591
 
     HARDWARE_AVAILABLE = True
 
@@ -45,10 +45,8 @@ class TSL2591Manager:
 
             self.logger.info("TSL2591 connected successfully.")
 
-        except Exception as e:
-            self.logger.warning(
-                f"Simulation Mode Enabled ({e})"
-            )
+        except Exception as e:  # noqa: BLE001
+            self.logger.warning(f"Simulation Mode Enabled ({e})")
             self.sensor = None
 
     def disconnect(self):

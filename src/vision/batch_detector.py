@@ -5,11 +5,10 @@ Processes all mission images and generates analytics.
 
 from pathlib import Path
 
-from src.vision.model_loader import ModelLoader
-from src.vision.detector import SolarPanelDetector
-
-from src.analytics.statistics import Statistics
 from src.analytics.exporter import CSVExporter
+from src.analytics.statistics import Statistics
+from src.vision.detector import SolarPanelDetector
+from src.vision.model_loader import ModelLoader
 
 
 class BatchDetector:
@@ -53,22 +52,17 @@ class BatchDetector:
 
             self.stats.add_image()
 
-            detections = self.detector.detect(
-                str(image),
-                save=True
-            )
+            detections = self.detector.detect(str(image), save=True)
 
             for detection in detections:
 
-                self.stats.add_detection(
-                    detection["class"]
-                )
+                self.stats.add_detection(detection["class"])
 
                 self.exporter.add_detection(
                     image.name,
                     detection["class"],
                     detection["confidence"],
-                    detection["box"]
+                    detection["box"],
                 )
 
         print()

@@ -2,16 +2,9 @@ from pathlib import Path
 
 from src.analytics.detection_analyzer import DetectionAnalyzer
 
+MISSION = Path("missions/mission_20260808_034026")
 
-MISSION = Path(
-    "missions/mission_20260808_034026"
-)
-
-DETECTION_FILE = (
-    MISSION
-    / "reports"
-    / "detections.csv"
-)
+DETECTION_FILE = MISSION / "reports" / "detections.csv"
 
 
 def test_detection_file_exists():
@@ -19,9 +12,7 @@ def test_detection_file_exists():
 
 
 def test_detection_summary():
-    analyzer = DetectionAnalyzer(
-        DETECTION_FILE
-    )
+    analyzer = DetectionAnalyzer(DETECTION_FILE)
 
     summary = analyzer.summary()
 
@@ -34,9 +25,7 @@ def test_detection_summary():
 
 
 def test_average_confidence():
-    analyzer = DetectionAnalyzer(
-        DETECTION_FILE
-    )
+    analyzer = DetectionAnalyzer(DETECTION_FILE)
 
     summary = analyzer.summary()
 
@@ -44,9 +33,7 @@ def test_average_confidence():
 
 
 def test_critical_detections():
-    analyzer = DetectionAnalyzer(
-        DETECTION_FILE
-    )
+    analyzer = DetectionAnalyzer(DETECTION_FILE)
 
     summary = analyzer.summary()
 

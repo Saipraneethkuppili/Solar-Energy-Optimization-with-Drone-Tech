@@ -5,9 +5,7 @@ def main():
 
     detector = BatchDetector()
 
-    detector.process_folder(
-        "datasets/mission"
-    )
+    detector.process_folder("datasets/mission")
 
 
 if __name__ == "__main__":

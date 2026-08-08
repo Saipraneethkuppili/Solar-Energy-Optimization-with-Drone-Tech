@@ -17,21 +17,13 @@ class MissionReport:
         self.mission = Path(mission_directory)
 
         if not self.mission.exists():
-            raise FileNotFoundError(
-                f"Mission directory not found: {self.mission}"
-            )
+            raise FileNotFoundError(f"Mission directory not found: {self.mission}")
 
-        self.detection_file = (
-            self.mission / "reports" / "detections.csv"
-        )
+        self.detection_file = self.mission / "reports" / "detections.csv"
 
-        self.report_file = (
-            self.mission / "reports" / "inspection_report.txt"
-        )
+        self.report_file = self.mission / "reports" / "inspection_report.txt"
 
-        self.analyzer = DetectionAnalyzer(
-            self.detection_file
-        )
+        self.analyzer = DetectionAnalyzer(self.detection_file)
 
     def generate(self):
         """Generate and save the inspection report."""
@@ -60,8 +52,7 @@ class MissionReport:
 
         else:
             recommendation = (
-                "No critical defects were detected. "
-                "Continue routine inspection."
+                "No critical defects were detected. " "Continue routine inspection."
             )
 
         report = f"""
@@ -104,14 +95,8 @@ END OF REPORT
 ============================================================
 """.strip()
 
-        self.report_file.parent.mkdir(
-            parents=True,
-            exist_ok=True
-        )
+        self.report_file.parent.mkdir(parents=True, exist_ok=True)
 
-        self.report_file.write_text(
-            report,
-            encoding="utf-8"
-        )
+        self.report_file.write_text(report, encoding="utf-8")
 
         return self.report_file

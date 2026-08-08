@@ -4,6 +4,7 @@ Runs inference on images using the trained YOLOv8 model.
 """
 
 from pathlib import Path
+
 from ultralytics import YOLO
 
 
@@ -52,7 +53,7 @@ class SolarPanelDetector:
                 {
                     "class": names[class_id],
                     "confidence": float(box.conf.item()),
-                    "box": box.xyxy[0].tolist()
+                    "box": box.xyxy[0].tolist(),
                 }
             )
 

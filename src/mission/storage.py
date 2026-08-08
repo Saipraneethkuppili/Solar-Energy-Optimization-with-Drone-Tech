@@ -21,9 +21,7 @@ class MissionStorage:
 
         image = Path(image)
 
-        destination = (
-            mission / "images" / image.name
-        )
+        destination = mission / "images" / image.name
 
         shutil.copy2(
             image,
@@ -41,9 +39,7 @@ class MissionStorage:
 
         report = Path(report)
 
-        destination = (
-            mission / "reports" / report.name
-        )
+        destination = mission / "reports" / report.name
 
         shutil.copy2(
             report,
@@ -59,13 +55,9 @@ class MissionStorage:
     ):
         """Copy annotated images into the mission."""
 
-        annotated_folder = Path(
-            annotated_folder
-        )
+        annotated_folder = Path(annotated_folder)
 
-        destination = (
-            mission / "annotated"
-        )
+        destination = mission / "annotated"
 
         copied_files = []
 
@@ -74,9 +66,7 @@ class MissionStorage:
             if not image.is_file():
                 continue
 
-            target = (
-                destination / image.name
-            )
+            target = destination / image.name
 
             shutil.copy2(
                 image,

@@ -6,7 +6,6 @@ a mission-level health status and recommendation.
 """
 
 from dataclasses import dataclass
-from typing import Dict
 
 
 @dataclass
@@ -35,7 +34,7 @@ class MissionHealthAnalyzer:
     physical solar panels.
     """
 
-    def __init__(self, detection_summary: Dict[str, int]):
+    def __init__(self, detection_summary: dict[str, int]):
         self.summary = detection_summary
 
     def analyze(self) -> MissionHealth:
@@ -58,20 +57,12 @@ class MissionHealthAnalyzer:
             0,
         )
 
-        total_detections = sum(
-            self.summary.values()
-        )
+        total_detections = sum(self.summary.values())
 
-        defect_detections = (
-            cracked_count
-            + dusty_count
-        )
+        defect_detections = cracked_count + dusty_count
 
         if total_detections > 0:
-            defect_ratio = (
-                defect_detections
-                / total_detections
-            )
+            defect_ratio = defect_detections / total_detections
         else:
             defect_ratio = 0.0
 
@@ -104,8 +95,7 @@ class MissionHealthAnalyzer:
             status = "HEALTHY"
 
             recommendation = (
-                "No critical defects detected. "
-                "Continue routine monitoring."
+                "No critical defects detected. " "Continue routine monitoring."
             )
 
         else:

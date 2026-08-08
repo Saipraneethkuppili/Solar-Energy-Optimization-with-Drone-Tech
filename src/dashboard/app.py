@@ -16,6 +16,7 @@ st.caption("Drone-based YOLOv8 inspection and mission analytics")
 # API helpers
 # --------------------------------------------------
 
+
 def api_get(endpoint):
     try:
         response = requests.get(
@@ -24,7 +25,7 @@ def api_get(endpoint):
         )
         response.raise_for_status()
         return response.json()
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         st.error(f"API connection failed: {exc}")
         return None
 
@@ -63,13 +64,9 @@ selected_mission = st.selectbox(
     index=len(missions) - 1,
 )
 
-mission = api_get(
-    f"/missions/{selected_mission}"
-)
+mission = api_get(f"/missions/{selected_mission}")
 
-report = api_get(
-    f"/missions/{selected_mission}/report"
-)
+report = api_get(f"/missions/{selected_mission}/report")
 
 # --------------------------------------------------
 # Mission summary
@@ -172,9 +169,7 @@ if report:
     )
 
     if recommendation:
-        st.info(
-            f"**Recommendation:** {recommendation}"
-        )
+        st.info(f"**Recommendation:** {recommendation}")
 
     # --------------------------------------------------
     # Metadata

@@ -4,7 +4,7 @@ Mission Manager
 Creates and manages a unique directory for every inspection mission.
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 
@@ -21,11 +21,7 @@ class MissionManager:
     def create(self) -> Path:
         """Create a new mission directory."""
 
-        mission_name = datetime.now(
-            timezone.utc
-        ).strftime(
-            "mission_%Y%m%d_%H%M%S"
-        )
+        mission_name = datetime.now(UTC).strftime("mission_%Y%m%d_%H%M%S")
 
         mission = self.root / mission_name
 
@@ -37,10 +33,7 @@ class MissionManager:
 
             while True:
 
-                candidate = (
-                    self.root
-                    / f"{mission_name}_{suffix}"
-                )
+                candidate = self.root / f"{mission_name}_{suffix}"
 
                 if not candidate.exists():
 

@@ -1,5 +1,5 @@
-from src.telemetry.simulator import SimulatedTelemetry
 from src.telemetry.recorder import TelemetryRecorder
+from src.telemetry.simulator import SimulatedTelemetry
 
 
 def main():
@@ -8,9 +8,7 @@ def main():
 
     telemetry.connect()
 
-    recorder = TelemetryRecorder(
-        "reports/telemetry.csv"
-    )
+    recorder = TelemetryRecorder("reports/telemetry.csv")
 
     recorder.start()
 

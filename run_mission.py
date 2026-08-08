@@ -33,14 +33,13 @@ from pathlib import Path
 
 from ultralytics import YOLO
 
-from src.mission.manager import MissionManager
-from src.mission.storage import MissionStorage
-from src.mission.metadata import MissionMetadata
-from src.telemetry.simulator import SimulatedTelemetry
-from src.telemetry.recorder import TelemetryRecorder
-from src.reporting.inspection_report import InspectionReport
 from src.config.settings import DEFAULT_CONFIG
-
+from src.mission.manager import MissionManager
+from src.mission.metadata import MissionMetadata
+from src.mission.storage import MissionStorage
+from src.reporting.inspection_report import InspectionReport
+from src.telemetry.recorder import TelemetryRecorder
+from src.telemetry.simulator import SimulatedTelemetry
 
 # ============================================================
 # CONFIGURATION
@@ -58,6 +57,7 @@ IMAGE_SIZE = DEFAULT_CONFIG.image_size
 # ============================================================
 # DETECTION CSV
 # ============================================================
+
 
 def create_detection_csv(mission):
     """Create the detection CSV file and return file + writer."""
@@ -96,6 +96,7 @@ def create_detection_csv(mission):
 # MAIN MISSION
 # ============================================================
 
+
 def main():
 
     print()
@@ -108,9 +109,7 @@ def main():
     # --------------------------------------------------------
 
     if not MODEL_PATH.exists():
-        raise FileNotFoundError(
-            f"YOLO model not found: {MODEL_PATH}"
-        )
+        raise FileNotFoundError(f"YOLO model not found: {MODEL_PATH}")
 
     # --------------------------------------------------------
     # Validate mission images
@@ -118,8 +117,7 @@ def main():
 
     if not IMAGE_DIRECTORY.exists():
         raise FileNotFoundError(
-            f"Mission image directory not found: "
-            f"{IMAGE_DIRECTORY}"
+            f"Mission image directory not found: " f"{IMAGE_DIRECTORY}"
         )
 
     images = sorted(
@@ -137,10 +135,7 @@ def main():
     )
 
     if not images:
-        raise RuntimeError(
-            f"No mission images found in "
-            f"{IMAGE_DIRECTORY}"
-        )
+        raise RuntimeError(f"No mission images found in " f"{IMAGE_DIRECTORY}")
 
     # --------------------------------------------------------
     # Create mission
@@ -151,9 +146,7 @@ def main():
     mission = mission_manager.create()
 
     print()
-    print(
-        f"Mission directory: {mission}"
-    )
+    print(f"Mission directory: {mission}")
 
     # --------------------------------------------------------
     # Initialize storage
@@ -182,13 +175,9 @@ def main():
     print()
     print("Loading YOLOv8 model...")
 
-    model = YOLO(
-        str(MODEL_PATH)
-    )
+    model = YOLO(str(MODEL_PATH))
 
-    print(
-        "YOLOv8 model loaded successfully."
-    )
+    print("YOLOv8 model loaded successfully.")
 
     # --------------------------------------------------------
     # Start simulated Pixhawk
@@ -202,15 +191,9 @@ def main():
     # Start telemetry recorder
     # --------------------------------------------------------
 
-    telemetry_file = (
-        mission
-        / "telemetry"
-        / "telemetry.csv"
-    )
+    telemetry_file = mission / "telemetry" / "telemetry.csv"
 
-    telemetry_recorder = TelemetryRecorder(
-        str(telemetry_file)
-    )
+    telemetry_recorder = TelemetryRecorder(str(telemetry_file))
 
     telemetry_recorder.start()
 
@@ -218,9 +201,7 @@ def main():
     # Create detection report
     # --------------------------------------------------------
 
-    detection_file, detection_writer = (
-        create_detection_csv(mission)
-    )
+    detection_file, detection_writer = create_detection_csv(mission)
 
     total_detections = 0
 
@@ -236,10 +217,7 @@ def main():
         ):
 
             print()
-            print(
-                f"[{index}/{len(images)}] "
-                f"{image.name}"
-            )
+            print(f"[{index}/{len(images)}] " f"{image.name}")
 
             # ------------------------------------------------
             # Copy original image
@@ -256,9 +234,7 @@ def main():
 
             telemetry_data = telemetry.read()
 
-            telemetry_recorder.record(
-                telemetry_data
-            )
+            telemetry_recorder.record(telemetry_data)
 
             # ------------------------------------------------
             # Run YOLO detection
@@ -283,22 +259,13 @@ def main():
 
                 for box in result.boxes:
 
-                    class_id = int(
-                        box.cls[0].item()
-                    )
+                    class_id = int(box.cls[0].item())
 
-                    confidence = float(
-                        box.conf[0].item()
-                    )
+                    confidence = float(box.conf[0].item())
 
-                    x1, y1, x2, y2 = (
-                        box.xyxy[0]
-                        .tolist()
-                    )
+                    x1, y1, x2, y2 = box.xyxy[0].tolist()
 
-                    class_name = model.names[
-                        class_id
-                    ]
+                    class_name = model.names[class_id]
 
                     detection_writer.writerow(
                         [
@@ -343,9 +310,7 @@ def main():
     # Copy YOLO annotated results
     # --------------------------------------------------------
 
-    prediction_directory = Path(
-        "runs/detect"
-    )
+    prediction_directory = Path("runs/detect")
 
     if prediction_directory.exists():
 
@@ -353,10 +318,7 @@ def main():
             [
                 path
                 for path in prediction_directory.iterdir()
-                if path.is_dir()
-                and path.name.startswith(
-                    "predict"
-                )
+                if path.is_dir() and path.name.startswith("predict")
             ],
             key=lambda path: path.stat().st_mtime,
         )
@@ -389,20 +351,14 @@ def main():
     print()
     print("Generating inspection report...")
 
-    inspection_report = InspectionReport(
-        mission
-    )
+    inspection_report = InspectionReport(mission)
 
     json_report = inspection_report.save_json()
     text_report = inspection_report.save_text()
 
-    print(
-        f"Inspection JSON   : {json_report}"
-    )
+    print(f"Inspection JSON   : {json_report}")
 
-    print(
-        f"Inspection report : {text_report}"
-    )
+    print(f"Inspection report : {text_report}")
 
     # --------------------------------------------------------
     # Final report
@@ -413,40 +369,24 @@ def main():
     print("MISSION COMPLETED")
     print("=" * 60)
 
-    print(
-        f"Images processed    : {len(images)}"
-    )
+    print(f"Images processed    : {len(images)}")
 
-    print(
-        f"Objects detected    : {total_detections}"
-    )
+    print(f"Objects detected    : {total_detections}")
 
-    print(
-        f"Mission directory   : {mission}"
-    )
+    print(f"Mission directory   : {mission}")
 
     print()
     print("Mission files:")
 
-    print(
-        f"  {mission}/images/"
-    )
+    print(f"  {mission}/images/")
 
-    print(
-        f"  {mission}/annotated/"
-    )
+    print(f"  {mission}/annotated/")
 
-    print(
-        f"  {mission}/reports/detections.csv"
-    )
+    print(f"  {mission}/reports/detections.csv")
 
-    print(
-        f"  {mission}/telemetry/telemetry.csv"
-    )
+    print(f"  {mission}/telemetry/telemetry.csv")
 
-    print(
-        f"  {mission}/metadata.json"
-    )
+    print(f"  {mission}/metadata.json")
 
     print("=" * 60)
 

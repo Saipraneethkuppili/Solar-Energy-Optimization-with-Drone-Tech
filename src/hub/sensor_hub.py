@@ -4,8 +4,8 @@ Sensor Hub
 Collects data from all hardware modules.
 """
 
-from src.hardware.pixhawk.manager import PixhawkManager
 from src.hardware.lidar.manager import TFLunaManager
+from src.hardware.pixhawk.manager import PixhawkManager
 from src.hardware.sht31.manager import SHT31Manager
 from src.hardware.tsl2591.manager import TSL2591Manager
 

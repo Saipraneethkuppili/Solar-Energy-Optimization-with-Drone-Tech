@@ -9,6 +9,7 @@ Supports:
 """
 
 import serial
+
 from src.core.logger import get_logger
 
 

@@ -1,5 +1,5 @@
-from src.vision.model_loader import ModelLoader
 from src.vision.detector import SolarPanelDetector
+from src.vision.model_loader import ModelLoader
 
 
 def main():
@@ -8,10 +8,7 @@ def main():
 
     detector = SolarPanelDetector(loader.get_model())
 
-    results = detector.detect(
-        "datasets/sample/test.jpg",
-        save=True
-    )
+    results = detector.detect("datasets/sample/test.jpg", save=True)
 
     print("\n" + "=" * 60)
     print("SOLAR PANEL INSPECTION REPORT")

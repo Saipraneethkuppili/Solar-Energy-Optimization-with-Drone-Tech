@@ -32,32 +32,32 @@ class TelemetryRecorder:
 
         self.writer = csv.writer(self.file)
 
-        self.writer.writerow([
-            "Timestamp",
-            "Latitude",
-            "Longitude",
-            "Altitude",
-            "RelativeAltitude",
-            "Roll",
-            "Pitch",
-            "Yaw",
-            "FlightMode",
-            "Armed",
-            "BatteryVoltage",
-            "BatteryCurrent",
-            "BatteryLevel",
-            "GroundSpeed",
-            "AirSpeed",
-        ])
+        self.writer.writerow(
+            [
+                "Timestamp",
+                "Latitude",
+                "Longitude",
+                "Altitude",
+                "RelativeAltitude",
+                "Roll",
+                "Pitch",
+                "Yaw",
+                "FlightMode",
+                "Armed",
+                "BatteryVoltage",
+                "BatteryCurrent",
+                "BatteryLevel",
+                "GroundSpeed",
+                "AirSpeed",
+            ]
+        )
 
         self.file.flush()
 
     def record(self, telemetry: dict):
 
         if self.writer is None:
-            raise RuntimeError(
-                "Telemetry recorder has not been started."
-            )
+            raise RuntimeError("Telemetry recorder has not been started.")
 
         gps = telemetry["gps"]
         attitude = telemetry["attitude"]
@@ -65,23 +65,25 @@ class TelemetryRecorder:
         battery = telemetry["battery"]
         speed = telemetry["speed"]
 
-        self.writer.writerow([
-            telemetry["timestamp"],
-            gps["latitude"],
-            gps["longitude"],
-            gps["altitude"],
-            gps["relative_altitude"],
-            attitude["roll"],
-            attitude["pitch"],
-            attitude["yaw"],
-            flight["mode"],
-            flight["armed"],
-            battery["voltage"],
-            battery["current"],
-            battery["level"],
-            speed["groundspeed"],
-            speed["airspeed"],
-        ])
+        self.writer.writerow(
+            [
+                telemetry["timestamp"],
+                gps["latitude"],
+                gps["longitude"],
+                gps["altitude"],
+                gps["relative_altitude"],
+                attitude["roll"],
+                attitude["pitch"],
+                attitude["yaw"],
+                flight["mode"],
+                flight["armed"],
+                battery["voltage"],
+                battery["current"],
+                battery["level"],
+                speed["groundspeed"],
+                speed["airspeed"],
+            ]
+        )
 
         self.file.flush()
 

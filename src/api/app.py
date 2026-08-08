@@ -2,12 +2,11 @@
 Solar Inspection REST API.
 """
 
-from pathlib import Path
 import csv
 import json
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
-
 
 MISSIONS_DIR = Path("missions")
 
@@ -76,8 +75,7 @@ def list_missions():
     missions = sorted(
         path.name
         for path in MISSIONS_DIR.iterdir()
-        if path.is_dir()
-        and path.name.startswith("mission_")
+        if path.is_dir() and path.name.startswith("mission_")
     )
 
     return {
@@ -92,14 +90,8 @@ def get_mission(mission_id: str):
 
     return {
         "mission_id": mission_id,
-        "metadata": read_json(
-            mission / "metadata.json"
-        ),
-        "report": read_json(
-            mission
-            / "reports"
-            / "inspection_report.json"
-        ),
+        "metadata": read_json(mission / "metadata.json"),
+        "report": read_json(mission / "reports" / "inspection_report.json"),
     }
 
 
@@ -107,11 +99,7 @@ def get_mission(mission_id: str):
 def get_detections(mission_id: str):
     mission = mission_path(mission_id)
 
-    detections = read_csv(
-        mission
-        / "reports"
-        / "detections.csv"
-    )
+    detections = read_csv(mission / "reports" / "detections.csv")
 
     return {
         "mission_id": mission_id,
@@ -124,11 +112,7 @@ def get_detections(mission_id: str):
 def get_telemetry(mission_id: str):
     mission = mission_path(mission_id)
 
-    telemetry = read_csv(
-        mission
-        / "telemetry"
-        / "telemetry.csv"
-    )
+    telemetry = read_csv(mission / "telemetry" / "telemetry.csv")
 
     return {
         "mission_id": mission_id,
@@ -141,11 +125,7 @@ def get_telemetry(mission_id: str):
 def get_report(mission_id: str):
     mission = mission_path(mission_id)
 
-    report = read_json(
-        mission
-        / "reports"
-        / "inspection_report.json"
-    )
+    report = read_json(mission / "reports" / "inspection_report.json")
 
     if not report:
         raise HTTPException(

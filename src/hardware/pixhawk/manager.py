@@ -6,6 +6,7 @@ Project: Solar Energy Optimization with Drone Tech
 """
 
 from pymavlink import mavutil
+
 from src.core.logger import get_logger
 
 
@@ -31,9 +32,7 @@ class PixhawkManager:
         self.master.wait_heartbeat()
 
         self.logger.info("Heartbeat received.")
-        self.logger.info(
-            f"Connected to System {self.master.target_system}"
-        )
+        self.logger.info(f"Connected to System {self.master.target_system}")
 
     def disconnect(self):
         """Disconnect from the Pixhawk."""

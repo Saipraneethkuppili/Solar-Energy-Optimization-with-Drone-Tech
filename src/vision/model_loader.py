@@ -5,6 +5,7 @@ Loads the trained YOLOv8 model and provides a singleton instance.
 """
 
 from pathlib import Path
+
 from ultralytics import YOLO
 
 
@@ -18,9 +19,7 @@ class ModelLoader:
     def load(self):
         """Load the YOLO model."""
         if not self.model_path.exists():
-            raise FileNotFoundError(
-                f"Model not found: {self.model_path}"
-            )
+            raise FileNotFoundError(f"Model not found: {self.model_path}")
 
         self.model = YOLO(str(self.model_path))
         print(f"[INFO] Model loaded successfully: {self.model_path}")

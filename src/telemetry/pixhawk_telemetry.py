@@ -5,8 +5,7 @@ MAVLink-based telemetry interface for Pixhawk.
 Uses pymavlink instead of DroneKit.
 """
 
-from datetime import datetime, timezone
-from typing import Optional
+from datetime import UTC, datetime
 
 from pymavlink import mavutil
 
@@ -26,10 +25,7 @@ class PixhawkTelemetry:
         """Connect to Pixhawk through MAVLink."""
 
         try:
-            print(
-                f"Connecting to Pixhawk: "
-                f"{self.connection_string}"
-            )
+            print(f"Connecting to Pixhawk: " f"{self.connection_string}")
 
             self.connection = mavutil.mavlink_connection(
                 self.connection_string,
@@ -38,29 +34,19 @@ class PixhawkTelemetry:
 
             print("Waiting for Pixhawk heartbeat...")
 
-            self.connection.wait_heartbeat(
-                timeout=10
-            )
+            self.connection.wait_heartbeat(timeout=10)
 
             print("Pixhawk connected successfully.")
 
-            print(
-                f"System ID : "
-                f"{self.connection.target_system}"
-            )
+            print(f"System ID : " f"{self.connection.target_system}")
 
-            print(
-                f"Component : "
-                f"{self.connection.target_component}"
-            )
+            print(f"Component : " f"{self.connection.target_component}")
 
             return True
 
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
 
-            print(
-                f"Pixhawk connection failed: {exc}"
-            )
+            print(f"Pixhawk connection failed: {exc}")
 
             self.connection = None
 
@@ -70,13 +56,9 @@ class PixhawkTelemetry:
         """Read one telemetry snapshot."""
 
         if self.connection is None:
-            raise RuntimeError(
-                "Pixhawk is not connected."
-            )
+            raise RuntimeError("Pixhawk is not connected.")
 
-        timestamp = datetime.now(
-            timezone.utc
-        ).isoformat()
+        timestamp = datetime.now(UTC).isoformat()
 
         telemetry = {
             "timestamp": timestamp,
@@ -115,26 +97,15 @@ class PixhawkTelemetry:
 
         if gps:
 
-            telemetry["gps"]["latitude"] = (
-                gps.lat / 1e7
-            )
+            telemetry["gps"]["latitude"] = gps.lat / 1e7
 
-            telemetry["gps"]["longitude"] = (
-                gps.lon / 1e7
-            )
+            telemetry["gps"]["longitude"] = gps.lon / 1e7
 
-            telemetry["gps"]["altitude"] = (
-                gps.alt / 1000.0
-            )
+            telemetry["gps"]["altitude"] = gps.alt / 1000.0
 
-            telemetry["gps"]["relative_altitude"] = (
-                gps.relative_alt / 1000.0
-            )
+            telemetry["gps"]["relative_altitude"] = gps.relative_alt / 1000.0
 
-            telemetry["speed"]["groundspeed"] = (
-                ((gps.vx ** 2 + gps.vy ** 2) ** 0.5)
-                / 100.0
-            )
+            telemetry["speed"]["groundspeed"] = ((gps.vx**2 + gps.vy**2) ** 0.5) / 100.0
 
         # Attitude
         attitude = self.connection.recv_match(
@@ -144,17 +115,11 @@ class PixhawkTelemetry:
 
         if attitude:
 
-            telemetry["attitude"]["roll"] = (
-                attitude.roll
-            )
+            telemetry["attitude"]["roll"] = attitude.roll
 
-            telemetry["attitude"]["pitch"] = (
-                attitude.pitch
-            )
+            telemetry["attitude"]["pitch"] = attitude.pitch
 
-            telemetry["attitude"]["yaw"] = (
-                attitude.yaw
-            )
+            telemetry["attitude"]["yaw"] = attitude.yaw
 
         # Battery
         battery = self.connection.recv_match(
@@ -164,17 +129,11 @@ class PixhawkTelemetry:
 
         if battery:
 
-            telemetry["battery"]["voltage"] = (
-                battery.voltage_battery / 1000.0
-            )
+            telemetry["battery"]["voltage"] = battery.voltage_battery / 1000.0
 
-            telemetry["battery"]["current"] = (
-                battery.current_battery / 100.0
-            )
+            telemetry["battery"]["current"] = battery.current_battery / 100.0
 
-            telemetry["battery"]["level"] = (
-                battery.battery_remaining
-            )
+            telemetry["battery"]["level"] = battery.battery_remaining
 
         return telemetry
 

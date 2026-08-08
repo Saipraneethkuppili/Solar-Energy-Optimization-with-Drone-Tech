@@ -4,8 +4,6 @@ Sensor Manager
 Manages all sensors connected to the Raspberry Pi.
 """
 
-from typing import Dict
-
 from src.hardware.base_sensor import BaseSensor
 
 
@@ -13,7 +11,7 @@ class SensorManager:
     """Manages multiple sensors."""
 
     def __init__(self):
-        self.sensors: Dict[str, BaseSensor] = {}
+        self.sensors: dict[str, BaseSensor] = {}
 
     def register_sensor(self, sensor: BaseSensor) -> None:
         """Register a new sensor."""
