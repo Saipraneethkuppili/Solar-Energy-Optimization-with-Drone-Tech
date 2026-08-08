@@ -31,5 +31,4 @@ pytest>=8.3.0
 
 black>=24.8.0
 
-ruff>=0.6.0streamlit
-requests
+ruff>=0.6.0
