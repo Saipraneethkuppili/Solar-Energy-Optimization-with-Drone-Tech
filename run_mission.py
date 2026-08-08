@@ -39,19 +39,20 @@ from src.mission.metadata import MissionMetadata
 from src.telemetry.simulator import SimulatedTelemetry
 from src.telemetry.recorder import TelemetryRecorder
 from src.reporting.inspection_report import InspectionReport
+from src.config.settings import DEFAULT_CONFIG
 
 
 # ============================================================
 # CONFIGURATION
 # ============================================================
 
-MODEL_PATH = Path("models/weights/best.pt")
+MODEL_PATH = DEFAULT_CONFIG.model_path
 
-IMAGE_DIRECTORY = Path("datasets/mission")
+IMAGE_DIRECTORY = DEFAULT_CONFIG.image_directory
 
 CONFIDENCE_THRESHOLD = 0.25
 
-IMAGE_SIZE = 640
+IMAGE_SIZE = DEFAULT_CONFIG.image_size
 
 
 # ============================================================
