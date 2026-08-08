@@ -68,4 +68,8 @@ tmp/
 temp/
 
 # Raspberry Pi
-*.db
+*.dbruns/
+__pycache__/
+missions/
+runs/
+reports/*.csv
