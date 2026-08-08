@@ -73,3 +73,6 @@ __pycache__/
 missions/
 runs/
 reports/*.csv
+
+# Generated YOLO inference outputs
+runs/detect/
