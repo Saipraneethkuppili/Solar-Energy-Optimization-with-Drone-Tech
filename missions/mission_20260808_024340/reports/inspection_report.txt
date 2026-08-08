@@ -1,0 +1,37 @@
+SOLAR PANEL INSPECTION REPORT
+============================================================
+
+MISSION INFORMATION
+------------------------------------------------------------
+Mission ID           : mission_20260808_024340
+Images inspected    : 15
+Objects detected    : 31
+
+DETECTION SUMMARY
+------------------------------------------------------------
+Panel               : 9
+Cracked             : 20
+Dusty               : 2
+Bird Drop           : 0
+
+MODEL PERFORMANCE
+------------------------------------------------------------
+Average confidence  : 66.25%
+
+CRITICAL FINDINGS
+------------------------------------------------------------
+Cracked detections  : 20
+Bird-drop detections: 0
+Critical detections : 20
+
+INSPECTION STATUS
+------------------------------------------------------------
+CRITICAL
+
+RECOMMENDATION
+------------------------------------------------------------
+Immediate inspection of detected damaged panel regions is recommended.
+
+============================================================
+END OF REPORT
+============================================================

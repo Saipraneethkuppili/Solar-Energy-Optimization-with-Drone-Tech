@@ -1,0 +1,17 @@
+{
+    "mission_id": "mission_20260808_023237",
+    "created_at": "2026-08-08T02:32:37.430027+00:00",
+    "model": {
+        "path": "models/weights/best.pt",
+        "confidence_threshold": 0.25,
+        "image_size": 640
+    },
+    "mission": {
+        "image_directory": "datasets/mission",
+        "image_count": 15,
+        "telemetry_source": "simulation",
+        "total_detections": 31
+    },
+    "status": "completed",
+    "completed_at": "2026-08-08T02:33:03.648885+00:00"
+}

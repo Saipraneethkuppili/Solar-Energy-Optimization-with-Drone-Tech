@@ -1,40 +1,89 @@
 """
 Mission Metadata
+
+Stores information describing an inspection mission.
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
+from pathlib import Path
 
 
 class MissionMetadata:
+    """Create and save mission metadata."""
 
-    def save(self, mission):
+    def save(
+        self,
+        mission: Path,
+        image_count: int = 0,
+        detection_count: int = 0,
+        telemetry_source: str = "simulation",
+        status: str = "completed",
+    ) -> Path:
+        """Save metadata.json for a mission."""
+
+        now = datetime.now(
+            timezone.utc
+        )
 
         metadata = {
 
-            "mission_id": mission.name,
+            "mission_id":
+                mission.name,
 
-            "date": datetime.now().strftime("%Y-%m-%d"),
+            "created_at":
+                now.isoformat(),
 
-            "time": datetime.now().strftime("%H:%M:%S"),
+            "status":
+                status,
 
-            "drone": "Pixhawk",
+            "drone": {
+                "flight_controller":
+                    "Pixhawk",
+                "telemetry_source":
+                    telemetry_source,
+            },
 
-            "camera": "Raspberry Pi Camera V3",
+            "camera": {
+                "model":
+                    "Raspberry Pi Camera V3",
+            },
 
-            "model": "YOLOv8",
+            "vision": {
+                "model":
+                    "YOLOv8",
+                "image_size":
+                    640,
+                "confidence_threshold":
+                    0.25,
+            },
 
-            "software_version": "0.6"
+            "mission": {
+                "image_count":
+                    image_count,
+                "detection_count":
+                    detection_count,
+            },
 
+            "software": {
+                "version":
+                    "0.6",
+            },
         }
 
-        with open(
-            mission / "metadata.json",
-            "w"
-        ) as f:
+        output_file = (
+            mission / "metadata.json"
+        )
+
+        with output_file.open(
+            "w",
+            encoding="utf-8",
+        ) as file:
 
             json.dump(
                 metadata,
-                f,
-                indent=4
+                file,
+                indent=4,
             )
+
+        return output_file

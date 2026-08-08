@@ -1,5 +1,8 @@
 """
 Mission Storage Utilities
+
+Handles copying images, reports and annotated
+results into the mission directory.
 """
 
 import shutil
@@ -7,32 +10,79 @@ from pathlib import Path
 
 
 class MissionStorage:
+    """Store mission-related files."""
 
-    def copy_image(self, image, mission):
+    def copy_image(
+        self,
+        image,
+        mission: Path,
+    ) -> Path:
+        """Copy an input image into the mission."""
 
-        destination = mission / "images"
+        image = Path(image)
 
-        shutil.copy(
+        destination = (
+            mission / "images" / image.name
+        )
+
+        shutil.copy2(
             image,
-            destination
+            destination,
         )
 
-    def copy_report(self, report, mission):
+        return destination
 
-        destination = mission / "reports"
+    def copy_report(
+        self,
+        report,
+        mission: Path,
+    ) -> Path:
+        """Copy a report into the mission."""
 
-        shutil.copy(
+        report = Path(report)
+
+        destination = (
+            mission / "reports" / report.name
+        )
+
+        shutil.copy2(
             report,
-            destination
+            destination,
         )
 
-    def copy_annotated(self, annotated_folder, mission):
+        return destination
 
-        annotated = mission / "annotated"
+    def copy_annotated(
+        self,
+        annotated_folder,
+        mission: Path,
+    ):
+        """Copy annotated images into the mission."""
 
-        for image in Path(annotated_folder).glob("*"):
+        annotated_folder = Path(
+            annotated_folder
+        )
 
-            shutil.copy(
-                image,
-                annotated
+        destination = (
+            mission / "annotated"
+        )
+
+        copied_files = []
+
+        for image in annotated_folder.iterdir():
+
+            if not image.is_file():
+                continue
+
+            target = (
+                destination / image.name
             )
+
+            shutil.copy2(
+                image,
+                target,
+            )
+
+            copied_files.append(target)
+
+        return copied_files
