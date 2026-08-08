@@ -38,6 +38,7 @@ from src.mission.storage import MissionStorage
 from src.mission.metadata import MissionMetadata
 from src.telemetry.simulator import SimulatedTelemetry
 from src.telemetry.recorder import TelemetryRecorder
+from src.reporting.inspection_report import InspectionReport
 
 
 # ============================================================
@@ -378,6 +379,28 @@ def main():
         detection_count=total_detections,
         telemetry_source="simulation",
         status="completed",
+    )
+
+    # --------------------------------------------------------
+    # Generate inspection report
+    # --------------------------------------------------------
+
+    print()
+    print("Generating inspection report...")
+
+    inspection_report = InspectionReport(
+        mission
+    )
+
+    json_report = inspection_report.save_json()
+    text_report = inspection_report.save_text()
+
+    print(
+        f"Inspection JSON   : {json_report}"
+    )
+
+    print(
+        f"Inspection report : {text_report}"
     )
 
     # --------------------------------------------------------
